@@ -50,9 +50,7 @@ public class HelloResource {
         ClientService studentService = new ClientService(em);
 
         //create
-        em.getTransaction().begin();
         studentService.createStudent("Nombre del Cliente",4);
-        em.getTransaction().commit();
 
         //read
         //Student student= studentService.findByID(1);
