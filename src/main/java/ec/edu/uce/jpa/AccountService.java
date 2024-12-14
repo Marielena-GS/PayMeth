@@ -6,7 +6,7 @@ import jakarta.persistence.Persistence;
 
 public class AccountService {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("AccountPU");
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
     private EntityManager em;
 
     public AccountService(){

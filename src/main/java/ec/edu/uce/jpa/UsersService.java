@@ -1,6 +1,11 @@
 package ec.edu.uce.jpa;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class UsersService {
 
@@ -11,12 +16,10 @@ public class UsersService {
         this.em = em;
     }
 
-    public User createUser(int id, String name, String lastName) {
-        User user = new User();
-        user.setId(id);
-        user.setName(name);
-        user.setLastName(lastName);
-        em.persist(user);//actualiza todos los datos
+    public User createUser(User user) {
+        em.getTransaction().begin();
+        em.persist(user);
+        em.getTransaction().commit();
         return user;
     }
 
@@ -27,6 +30,11 @@ public class UsersService {
 
     public User findByID(int id) {
         return em.find(User.class, id);
+    }
+
+    public List<User> findAll(){
+        String query = "SELECT u FROM User u";
+        return em.createQuery(query, User.class).getResultList();
     }
 
     public void updateUser(User user) {

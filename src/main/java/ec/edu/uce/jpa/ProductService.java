@@ -1,14 +1,17 @@
 package ec.edu.uce.jpa;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 public class ProductService {
 
     private EntityManager em;
 
-    public ProductService(EntityManager em)
+    public ProductService()
     {
-        this.em = em;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
+        em = emf.createEntityManager();
     }
 
     public Product createProduct(int id, int code, String name, double price )

@@ -1,15 +1,17 @@
 package ec.edu.uce.paymeth;
-
+import ec.edu.uce.classes.PaymentByCreditCard;
 import ec.edu.uce.interfaces.IPay;
 import ec.edu.uce.interfaces.QualifierPayment;
 import ec.edu.uce.classes.Record;
+import ec.edu.uce.jpa.*;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
+import org.hibernate.internal.build.AllowSysOut;
+
+import java.util.List;
 
 @Path("/pay")
 public class HelloResource {
@@ -29,48 +31,40 @@ public class HelloResource {
     @QualifierPayment("transfer")
     IPay transferPay;
 
-    @GET
-    @Produces("text/plain")
-    public String hello() {
-        return "Hello, World!";
-    }
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
+    private EntityManager em = emf.createEntityManager();
 
     @GET
     @Produces("text/plain")
     @Path("/creditcard")
-    public String emailNotification() {
-        //entity manager factoy
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cliente");
-        EntityManager em = emf.createEntityManager();
+    public String saveUser(@QueryParam("id") int id,
+                           @QueryParam("name") String name,
+                           @QueryParam("lastname") String lastname)
+    {
+        UsersService usersService = new UsersService(em);
+        List<User> users =  usersService.findAll();
 
-        //create students services
-        ClientService studentService = new ClientService(em);
+        User nuser = new User();
+        nuser.setName(name);
+        nuser.setLastName(lastname);
 
-        //create
-        studentService.createStudent("Nombre del Cliente",4);
+        if (id != 0)
+        {
+            usersService.createUser(nuser);
+        }
 
-        //read
-        //Student student= studentService.findByID(1);
+        StringBuilder sb = new StringBuilder();
 
-
-
-        //update
-        //student.setName("nuevoUsuario");
-        //studentService.updateStudent(student);
-
-        //studentService.delete(1);
-
-        MessageService messageService = new MessageService(em);
-        Messege messege = new Messege();
-        messege.setMessage("esto es una prueba");
-        messageService.create(messege);
-
-
-        //record.setTo(String.valueOf(student.getId()));
-        //record.setMessage(student.getName());
-
-
-        return cardPay.sendPayNotify(record, "card pay");
+        for (User user : users) {
+            sb.append(user.getId())
+                    .append(" ")
+                    .append(user.getName())
+                    .append(" ")
+                    .append(user.getLastName())
+                    .append("\n");
+        }
+        usersService.createUser(nuser);
+        return sb.toString();
     }
 
     @GET

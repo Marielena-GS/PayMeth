@@ -3,7 +3,7 @@ package ec.edu.uce.jpa;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "User")
+@Table(name = "\"User\"")
 public class User {
 
     @Id
