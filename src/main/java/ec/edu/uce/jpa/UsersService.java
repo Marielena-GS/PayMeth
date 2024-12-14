@@ -29,7 +29,6 @@ public class UsersService {
         return em.find(User.class, id);
     }
 
-
     public void updateUser(User user) {
         em.getTransaction().begin();
         em.merge(user);
