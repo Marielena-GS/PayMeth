@@ -4,16 +4,16 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 public class UsersService {
 
     private EntityManager em;
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
 
-    public UsersService(EntityManager em)
+    public UsersService()
     {
-        this.em = em;
+        this.em = emf.createEntityManager();
     }
 
     public User createUser(User user) {

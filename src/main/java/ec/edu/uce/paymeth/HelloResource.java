@@ -31,28 +31,23 @@ public class HelloResource {
     @QualifierPayment("transfer")
     IPay transferPay;
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
-    private EntityManager em = emf.createEntityManager();
-
     @GET
     @Produces("text/plain")
     @Path("/creditcard")
-    public String saveUser(@QueryParam("id") int id,
-                           @QueryParam("name") String name,
+    public String saveUser(@QueryParam("name") String name,
                            @QueryParam("lastname") String lastname)
     {
-        UsersService usersService = new UsersService(em);
-        List<User> users =  usersService.findAll();
+        UsersService usersService = new UsersService();
 
         User nuser = new User();
         nuser.setName(name);
         nuser.setLastName(lastname);
 
-        if (id != 0)
+        if (name != null && lastname != null)
         {
             usersService.createUser(nuser);
         }
-
+        List<User> users =  usersService.findAll();
         StringBuilder sb = new StringBuilder();
 
         for (User user : users) {
@@ -63,7 +58,6 @@ public class HelloResource {
                     .append(user.getLastName())
                     .append("\n");
         }
-        usersService.createUser(nuser);
         return sb.toString();
     }
 
