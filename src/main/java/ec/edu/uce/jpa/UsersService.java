@@ -27,11 +27,6 @@ public class UsersService {
         return user;
     }
 
-    public User readUser(int id)
-    {
-        return em.find(User.class, id);
-    }
-
     public User findByID(int id) {
         return em.find(User.class, id);
     }

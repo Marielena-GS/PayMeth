@@ -22,7 +22,6 @@ public class PaymentByTransfer implements IPay {
 
     @Override
     public String sendPayNotify(Record record, String message) {
-        record.setMessage(message);
         return record.getdata();
     }
 

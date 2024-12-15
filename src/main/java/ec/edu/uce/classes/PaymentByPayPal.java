@@ -22,7 +22,6 @@ public class PaymentByPayPal implements IPay {
 
     @Override
     public String sendPayNotify(Record record, String menssage) {
-        record.setMessage(menssage);
         return record.getdata();
     }
 }

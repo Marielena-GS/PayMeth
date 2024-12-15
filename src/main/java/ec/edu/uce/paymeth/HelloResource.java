@@ -144,24 +144,68 @@ public class HelloResource {
     @GET
     @Produces("text/plain")
     @Path("/creditcard")
-    public String emailNotification() {
-        return paypalPay.sendPayNotify(record, "paypal pay");
+    public String CreditCard(@QueryParam("id_user") int id,
+                             @QueryParam("list_products") List<Integer> id_product)
+    {
+        User user = usersService.findByID(id);
+
+        List<Product> products = new ArrayList<>();
+        for(Integer i : id_product)
+        {
+         products.add(productService.findByID(i));
+        }
+
+        record.setProduct(products);
+        record.setUser(user);
+        record.setReturnToMethod("Credit Card Payment");
+        String data = paypalPay.sendPayNotify(record, "CreditCrad Pay");
+
+        return data;
     }
 
     @GET
     @Produces("text/plain")
     @Path("/paypal")
-    public String SMSNotification() {
-        return paypalPay.sendPayNotify(record, "paypal pay");
+    public String PayPal(@QueryParam("id_user") int id,
+                             @QueryParam("list_products") List<Integer> id_product)
+    {
+        User user = usersService.findByID(id);
 
+        List<Product> products = new ArrayList<>();
+        for(Integer i : id_product)
+        {
+            products.add(productService.findByID(i));
+        }
+
+        record.setProduct(products);
+        record.setUser(user);
+        record.setReturnToMethod("PayPal Payment");
+        String data = paypalPay.sendPayNotify(record, "PayPal Pay");
+
+        return data;
     }
+
 
     @GET
     @Produces("text/plain")
     @Path("/transfer")
-    public String pushNotification() {
-        return transferPay.sendPayNotify(record,"transfer pay");
-    }
+    public String Transfer(@QueryParam("id_user") int id,
+                         @QueryParam("list_products") List<Integer> id_product)
+    {
+        User user = usersService.findByID(id);
 
+        List<Product> products = new ArrayList<>();
+        for(Integer i : id_product)
+        {
+            products.add(productService.findByID(i));
+        }
+
+        record.setProduct(products);
+        record.setUser(user);
+        record.setReturnToMethod("Transfer Payment");
+        String data = paypalPay.sendPayNotify(record, "Transfer Pay");
+
+        return data;
+    }
 }
 

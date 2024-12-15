@@ -10,18 +10,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 @QualifierPayment("card")
 public class PaymentByCreditCard implements IPay {
 
-    @PostConstruct
-    public void init() {
-        System.out.println("Credit Card pay notification init");
-    }
-    @PreDestroy
-    public void destroy() {
-        System.out.println("Credit Card pay notification destroy");
-    }
-
     @Override
-    public String sendPayNotify(Record record, String message) {
-        record.setMessage(message);
+    public String sendPayNotify(Record record, String message)
+    {
         return record.getdata();
     }
 }
