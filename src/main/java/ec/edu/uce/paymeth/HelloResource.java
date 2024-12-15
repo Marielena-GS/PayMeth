@@ -33,7 +33,7 @@ public class HelloResource {
 
     @GET
     @Produces("text/plain")
-    @Path("/creditcard")
+    @Path("/createuser")
     public String saveUser(@QueryParam("name") String name,
                            @QueryParam("lastname") String lastname)
     {
@@ -59,6 +59,48 @@ public class HelloResource {
                     .append("\n");
         }
         return sb.toString();
+    }
+
+    @GET
+    @Produces("text/plain")
+    @Path("/createproduct")
+    public String saveProduct(@QueryParam("code") int code,
+                           @QueryParam("nameProduct") String name,
+                           @QueryParam("price") double price)
+    {
+        ProductService productService = new ProductService();
+
+        Product product = new Product();
+        product.setCode(code);
+        product.setName(name);
+        product.setPrice(price);
+
+        if (code != 0 && name != null && price != 0)
+        {
+            productService.createProduct(product);
+        }
+        List<Product> products =  productService.findAll();
+        StringBuilder sb = new StringBuilder();
+
+        for (Product product1 : products) {
+            sb.append(product1.getId())
+                    .append(" ")
+                    .append(product1.getCode())
+                    .append(" ")
+                    .append(product1.getName())
+                    .append(" ")
+                    .append(product1.getPrice())
+                    .append("\n");
+        }
+        return sb.toString();
+    }
+
+    @GET
+    @Produces("text/plain")
+    @Path("/creditcard")
+    public String emailNotification() {
+        return paypalPay.sendPayNotify(record, "paypal pay");
+
     }
 
     @GET

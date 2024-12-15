@@ -4,37 +4,35 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.util.List;
+
 public class ProductService {
 
     private EntityManager em;
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
 
     public ProductService()
     {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
-        em = emf.createEntityManager();
+        this.em = emf.createEntityManager();
     }
 
-    public Product createProduct(int id, int code, String name, double price )
-    {
-        Product product = new Product();
-        product.setId(id);
-        product.setCode(code);
-        product.setName(name);
-        product.setPrice(price);
-        em.persist(product);//actualiza todos los datos
+    public Product createProduct(Product product) {
+        em.getTransaction().begin();
+        em.persist(product);
+        em.getTransaction().commit();
         return product;
-    }
-
-    public Product readProduct(int id)
-    {
-        return em.find(Product.class, id);
     }
 
     public Product findByID(int id) {
         return em.find(Product.class, id);
     }
 
-    public void updateProduct(Product product) {
+    public List<Product> findAll(){
+        String query = "SELECT p FROM Product p";
+        return em.createQuery(query,Product.class).getResultList();
+    }
+
+    public void updateUser(Product product) {
         em.getTransaction().begin();
         em.merge(product);
         em.getTransaction().commit();
@@ -46,5 +44,4 @@ public class ProductService {
         em.remove(product);
         em.getTransaction().commit();
     }
-
 }
