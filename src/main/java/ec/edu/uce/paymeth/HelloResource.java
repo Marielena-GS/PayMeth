@@ -83,6 +83,18 @@ public class HelloResource {
                     .append(" ")
                     .append(user.getLastName())
                     .append("\n");
+
+            for(Account a : user.getAccount())
+            {
+                sb.append(a.getId())
+                        .append(" ")
+                        .append(a.getType())
+                        .append(" ")
+                        .append(a.getEmail())
+                        .append(" ")
+                        .append(a.getPhone())
+                        .append("\n");
+            }
         }
         return sb.toString();
     }
