@@ -16,6 +16,18 @@ public class Account {
     @Column(name = "User_Phone")
     private String phone;
 
+    @OneToOne
+    @JoinColumn(name = "id_account")
+    private State state;
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
     public Account() { }
 
     public int getId() {

@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 @ApplicationScoped
@@ -46,5 +47,10 @@ public class AccountService {
         em.getTransaction().begin();
         em.remove(account);
         em.getTransaction().commit();
+    }
+
+    public List<Account> findByJoin(){
+        TypedQuery<Account> query = em.createQuery("SELECT a FROM Account a JOIN a.state", Account.class);
+        return query.getResultList();
     }
 }

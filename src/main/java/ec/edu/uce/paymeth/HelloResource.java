@@ -55,29 +55,35 @@ public class HelloResource {
                            @QueryParam("lastname") String lastname,
                            @QueryParam("type_account") String type,
                            @QueryParam("email") String email,
-                           @QueryParam("phone_user") String phone)
+                           @QueryParam("phone_user") String phone,
+                           @QueryParam("state_account") String state_account)
     {
         User nuser = new User();
         List<Account> accounts = new ArrayList<>();
         Account account = new Account();
+        State state = new State();
+        state.setState_account(state_account);
         nuser.setName(name);
         nuser.setLastName(lastname);
         account.setType(type);
         account.setEmail(email);
         account.setPhone(phone);
+        account.setState(state);
         accounts.add(account);
         nuser.setAccount(accounts);
 
         if (name != null && lastname != null)
         {
-            usersService.createUser(nuser);
+            stateService.createState(state);
             accountService.createAccount(account);
+            usersService.createUser(nuser);
         }
         List<User> users =  usersService.findByJoin();
         StringBuilder sb = new StringBuilder();
 
         for (User user : users) {
-            sb.append(user.getId())
+            sb.append("Usser: \n")
+                    .append(user.getId())
                     .append(" ")
                     .append(user.getName())
                     .append(" ")
@@ -86,13 +92,17 @@ public class HelloResource {
 
             for(Account a : user.getAccount())
             {
-                sb.append(a.getId())
+                sb.append("User Account: \n")
+                        .append(a.getId())
                         .append(" ")
                         .append(a.getType())
                         .append(" ")
                         .append(a.getEmail())
                         .append(" ")
                         .append(a.getPhone())
+                        .append("\n")
+                        .append("State: \n")
+                        .append(a.getState().getState_account())
                         .append("\n");
             }
         }
@@ -136,7 +146,6 @@ public class HelloResource {
     @Path("/creditcard")
     public String emailNotification() {
         return paypalPay.sendPayNotify(record, "paypal pay");
-
     }
 
     @GET
@@ -152,7 +161,6 @@ public class HelloResource {
     @Path("/transfer")
     public String pushNotification() {
         return transferPay.sendPayNotify(record,"transfer pay");
-
     }
 
 }
