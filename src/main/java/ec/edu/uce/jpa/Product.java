@@ -12,7 +12,6 @@ public class Product {
     @GeneratedValue(strategy = IDENTITY)
     private int id;
     @Column(name = "Code")
-    @GeneratedValue(strategy = IDENTITY)
     private int code;
     @Column(name= "Product_Name")
     private String name;

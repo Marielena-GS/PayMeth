@@ -58,6 +58,11 @@ public class Record
     public String getdata()
     {
         StringBuilder sb = new StringBuilder();
+
+         sb.append(("- - - - - - - - - - - - -"))
+            .append("\n    * Payment Invoice *")
+            .append(("\n- - - - - - - - - - - - -\n"));
+
         sb.append("User: ")
                 .append("\n - Id: ")
                 .append(user.getId())
@@ -83,6 +88,12 @@ public class Record
                     .append(a.getState().getState_account())
                     .append("\n- - - - - - - - - - - - -")
                     .append("\n");
+
+            if(a.getState().getState_account().equals("Cancel"))
+            {
+                return sb.toString();
+            }
+
         }
 
         for(Product p : getProduct())
@@ -99,8 +110,8 @@ public class Record
             value += p.getPrice();
         }
         sb.append("\n- - - - - - - - - - - - -")
-        .append("\n   * Total Value: ")
-                .append(value + " * ")
+        .append("\n     Total Value: \n")
+                .append("         " + value)
                 .append(("\n- - - - - - - - - - - - -"))
                 .append(getReturnToMethod())
                 .append(("\n- - - - - - - - - - - - -"))

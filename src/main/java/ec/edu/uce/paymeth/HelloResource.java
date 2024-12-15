@@ -48,6 +48,10 @@ public class HelloResource {
     @QualifierPayment("AccountService")
     AccountService accountService;
 
+    @Inject
+    @QualifierPayment("PaymentsService")
+    PaymentsService paymentsService;
+
     @GET
     @Produces("text/plain")
     @Path("/createuser")
@@ -62,47 +66,75 @@ public class HelloResource {
         List<Account> accounts = new ArrayList<>();
         Account account = new Account();
         State state = new State();
-        state.setState_account(state_account);
-        nuser.setName(name);
-        nuser.setLastName(lastname);
-        account.setType(type);
-        account.setEmail(email);
-        account.setPhone(phone);
-        account.setState(state);
-        accounts.add(account);
-        nuser.setAccount(accounts);
 
         if (name != null && lastname != null)
         {
-            stateService.createState(state);
-            accountService.createAccount(account);
-            usersService.createUser(nuser);
+            state.setState_account(state_account);
+            nuser.setName(name);
+            nuser.setLastName(lastname);
+            account.setType(type);
+            account.setEmail(email);
+            account.setPhone(phone);
+            account.setState(state);
+            accounts.add(account);
+            nuser.setAccount(accounts);
         }
+        else
+        {
+            state.setState_account("Cancel");
+            nuser.setName("John");
+            nuser.setLastName("Fuentes");
+            account.setType("Ahorros");
+            account.setEmail("jfuente@uce.edu.ec");
+            account.setPhone("0985402174");
+            account.setState(state);
+            accounts.add(account);
+            nuser.setAccount(accounts);
+
+            state.setState_account("Pagada");
+            nuser.setName("John");
+            nuser.setLastName("Freire");
+            account.setType("Corriente");
+            account.setEmail("jfreire@uce.edu.ec");
+            account.setPhone("0995412154");
+            account.setState(state);
+            accounts.add(account);
+            nuser.setAccount(accounts);
+        }
+        stateService.createState(state);
+        accountService.createAccount(account);
+        usersService.createUser(nuser);
+
         List<User> users =  usersService.findByJoin();
         StringBuilder sb = new StringBuilder();
 
         for (User user : users) {
-            sb.append("Usser: \n")
-                    .append("Id User: ")
+             sb.append("- - - - - - - - - - - - -")
+                    .append("\n    * New User *")
+                    .append("\n- - - - - - - - - - - - -\n")
+                    .append(" - Id User: ")
                     .append(user.getId())
-                    .append("\n Name: ")
+                    .append("\n - Name: ")
                     .append(user.getName())
-                    .append("\n Last Name: ")
+                    .append("\n - Last Name: ")
                     .append(user.getLastName())
                     .append("\n");
 
             for(Account a : user.getAccount())
             {
-                sb.append("User Account: \n")
+                sb.append("- - - - - - - - - - - - -")
+                        .append("\n    * User Account * ")
+                        .append("\n- - - - - - - - - - - - -")
+                        .append("\n - Id Account: ")
                         .append(a.getId())
-                        .append("Account Type: ")
+                        .append("\n - Type Account: ")
                         .append(a.getType())
-                        .append("\nEmail User: ")
+                        .append("\n - Email User: ")
                         .append(a.getEmail())
-                        .append("\nNumber: ")
+                        .append("\n - Phone: ")
                         .append(a.getPhone())
                         .append("\n")
-                        .append("State: ")
+                        .append(" - State: ")
                         .append(a.getState().getState_account())
                         .append("\n");
             }
@@ -124,18 +156,36 @@ public class HelloResource {
 
         if (code != 0 && name != null && price != 0)
         {
-            productService.createProduct(product);
+            product.setCode(code);
+            product.setName(name);
+            product.setPrice(price);
         }
+        else
+        {
+           product.setCode(154752);
+           product.setName("Italian Ham");
+           product.setPrice(3.85);
+
+            product.setCode(137752);
+            product.setName("Sliced Mortadella");
+            product.setPrice(1.75);
+        }
+        productService.createProduct(product);
+
         List<Product> products =  productService.findAll();
         StringBuilder sb = new StringBuilder();
 
         for (Product product1 : products) {
-            sb.append(product1.getId())
-                    .append(" | ")
+            sb.append("- - - - - - - - - - - - - - -")
+                    .append("\n    * Products * ")
+                    .append("\n- - - - - - - - - - - - - - -\n")
+                    .append("       ")
+                    .append(product1.getId())
+                    .append("  |  ")
                     .append(product1.getCode())
-                    .append("\n")
+                    .append("\n - Name Product: ")
                     .append(product1.getName())
-                    .append("\n")
+                    .append("\n - Price Product: ")
                     .append(product1.getPrice())
                     .append("\n");
         }
@@ -148,19 +198,32 @@ public class HelloResource {
     public String CreditCard(@QueryParam("id_user") int id,
                              @QueryParam("list_products") List<Integer> id_product)
     {
-        User user = usersService.findByID(id);
-
+        User user;
         List<Product> products = new ArrayList<>();
-        for(Integer i : id_product)
+        Payments payments = new Payments();
+
+        if(id != 0 && id_product != null)
         {
-         products.add(productService.findByID(i));
+            user = usersService.findByID(id);
+            payments.setId_user(user);
+
+            for(Integer i : id_product)
+            {
+                products.add(productService.findByID(i));
+            }
+        }
+        else
+        {
+            user = usersService.findByID(6);
+            products.add(productService.findByID(1));
         }
 
         record.setProduct(products);
         record.setUser(user);
+        payments.setPayment_method(" * Billing Payment * ");
+        paymentsService.createPay(payments);
         record.setReturnToMethod("\n  * Credit Card Payment * ");
         String data = cardPay.sendPayNotify(record);
-
         return data;
     }
 
@@ -168,41 +231,70 @@ public class HelloResource {
     @Produces("text/plain")
     @Path("/paypal")
     public String PayPal(@QueryParam("id_user") int id,
-                             @QueryParam("list_products") List<Integer> id_product)
+                         @QueryParam("list_products") List<Integer> id_product)
     {
-        User user = usersService.findByID(id);
 
+
+        User user;
         List<Product> products = new ArrayList<>();
-        for(Integer i : id_product)
+        Payments payments = new Payments();
+
+        if(id != 0 && id_product != null)
         {
-            products.add(productService.findByID(i));
+            user = usersService.findByID(id);
+            payments.setId_user(user);
+
+            for(Integer i : id_product)
+            {
+                products.add(productService.findByID(i));
+            }
+        }
+        else
+        {
+            user = usersService.findByID(1);
+            products.add(productService.findByID(2));
         }
 
         record.setProduct(products);
         record.setUser(user);
+        payments.setPayment_method(" * Billing Payment * ");
+        paymentsService.createPay(payments);
         record.setReturnToMethod("\n  * PayPal Payment * ");
         String data = paypalPay.sendPayNotify(record);
 
         return data;
     }
 
-
     @GET
     @Produces("text/plain")
     @Path("/transfer")
     public String Transfer(@QueryParam("id_user") int id,
-                         @QueryParam("list_products") List<Integer> id_product)
+                           @QueryParam("list_products") List<Integer> id_product)
     {
-        User user = usersService.findByID(id);
-
+        User user;
         List<Product> products = new ArrayList<>();
-        for(Integer i : id_product)
+        Payments payments = new Payments();
+
+        if(id != 0 && id_product != null)
         {
-            products.add(productService.findByID(i));
+            user = usersService.findByID(id);
+            payments.setId_user(user);
+
+            for(Integer i : id_product)
+            {
+                products.add(productService.findByID(i));
+            }
+        }
+        else
+        {
+            user = usersService.findByID(3);
+            products.add(productService.findByID(4));
         }
 
         record.setProduct(products);
         record.setUser(user);
+        payments.setPayment_method(" * Billing Payment * ");
+        paymentsService.createPay(payments);
         record.setReturnToMethod("\n  * Transfer Payment * ");
         String data = transferPay.sendPayNotify(record);
 

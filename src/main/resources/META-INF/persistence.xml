@@ -9,6 +9,7 @@ version="3.0">
         <class>ec.edu.uce.jpa.Account</class>
         <class>ec.edu.uce.jpa.Product</class>
         <class>ec.edu.uce.jpa.State</class>
+        <class>ec.edu.uce.jpa.Payments</class>
         <properties>
             <!-- Configuración JDBC para PostgreSQL -->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver" />
