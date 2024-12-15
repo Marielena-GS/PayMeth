@@ -31,14 +31,28 @@ public class HelloResource {
     @QualifierPayment("transfer")
     IPay transferPay;
 
+    @Inject
+    @QualifierPayment("ProductService")
+    ProductService productService;
+
+    @Inject
+    @QualifierPayment("UsersService")
+    UsersService usersService;
+
+    @Inject
+    @QualifierPayment("StateService")
+    StateService stateService;
+
+    @Inject
+    @QualifierPayment("AccountService")
+    AccountService accountService;
+
     @GET
     @Produces("text/plain")
     @Path("/createuser")
     public String saveUser(@QueryParam("name") String name,
                            @QueryParam("lastname") String lastname)
     {
-        UsersService usersService = new UsersService();
-
         User nuser = new User();
         nuser.setName(name);
         nuser.setLastName(lastname);
@@ -65,11 +79,9 @@ public class HelloResource {
     @Produces("text/plain")
     @Path("/createproduct")
     public String saveProduct(@QueryParam("code") int code,
-                           @QueryParam("nameProduct") String name,
+                           @QueryParam("nameproduct") String name,
                            @QueryParam("price") double price)
     {
-        ProductService productService = new ProductService();
-
         Product product = new Product();
         product.setCode(code);
         product.setName(name);

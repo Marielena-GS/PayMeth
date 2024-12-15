@@ -1,25 +1,50 @@
 package ec.edu.uce.jpa;
 
+import ec.edu.uce.interfaces.QualifierPayment;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.util.List;
+@ApplicationScoped
+@QualifierPayment("AccountService")
 public class AccountService {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
     private EntityManager em;
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("Persistence");
 
-    public AccountService(){
-        em = emf.createEntityManager();
+    public AccountService()
+    {
+        this.em = emf.createEntityManager();
     }
 
-    public void save(Account account){
+    public Account createAccount(Account account) {
         em.getTransaction().begin();
         em.persist(account);
         em.getTransaction().commit();
+        return account;
     }
 
-    public Account getAccount(int id) {
+    public Account findByID(int id) {
         return em.find(Account.class, id);
+    }
+
+    public List<Account> findAll(){
+        String query = "SELECT a FROM Account a";
+        return em.createQuery(query,Account.class).getResultList();
+    }
+
+    public void updateAccount(Account account) {
+        em.getTransaction().begin();
+        em.merge(account);
+        em.getTransaction().commit();
+    }
+
+    public void deleteById(int id) {
+        Account account = findByID(id);
+        em.getTransaction().begin();
+        em.remove(account);
+        em.getTransaction().commit();
     }
 }

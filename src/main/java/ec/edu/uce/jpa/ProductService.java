@@ -1,11 +1,14 @@
 package ec.edu.uce.jpa;
 
+import ec.edu.uce.interfaces.QualifierPayment;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
 import java.util.List;
-
+@ApplicationScoped
+@QualifierPayment("ProductService")
 public class ProductService {
 
     private EntityManager em;
@@ -13,6 +16,7 @@ public class ProductService {
 
     public ProductService()
     {
+
         this.em = emf.createEntityManager();
     }
 
