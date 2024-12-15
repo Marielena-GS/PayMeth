@@ -83,10 +83,11 @@ public class HelloResource {
 
         for (User user : users) {
             sb.append("Usser: \n")
+                    .append("Id User: ")
                     .append(user.getId())
-                    .append(" ")
+                    .append("\n Name: ")
                     .append(user.getName())
-                    .append(" ")
+                    .append("\n Last Name: ")
                     .append(user.getLastName())
                     .append("\n");
 
@@ -94,14 +95,14 @@ public class HelloResource {
             {
                 sb.append("User Account: \n")
                         .append(a.getId())
-                        .append(" ")
+                        .append("Account Type: ")
                         .append(a.getType())
-                        .append(" ")
+                        .append("\nEmail User: ")
                         .append(a.getEmail())
-                        .append(" ")
+                        .append("\nNumber: ")
                         .append(a.getPhone())
                         .append("\n")
-                        .append("State: \n")
+                        .append("State: ")
                         .append(a.getState().getState_account())
                         .append("\n");
             }
@@ -130,11 +131,11 @@ public class HelloResource {
 
         for (Product product1 : products) {
             sb.append(product1.getId())
-                    .append(" ")
+                    .append(" | ")
                     .append(product1.getCode())
-                    .append(" ")
+                    .append("\n")
                     .append(product1.getName())
-                    .append(" ")
+                    .append("\n")
                     .append(product1.getPrice())
                     .append("\n");
         }
@@ -157,8 +158,8 @@ public class HelloResource {
 
         record.setProduct(products);
         record.setUser(user);
-        record.setReturnToMethod("Credit Card Payment");
-        String data = paypalPay.sendPayNotify(record, "CreditCrad Pay");
+        record.setReturnToMethod("\n  * Credit Card Payment *");
+        String data = cardPay.sendPayNotify(record);
 
         return data;
     }
@@ -179,8 +180,8 @@ public class HelloResource {
 
         record.setProduct(products);
         record.setUser(user);
-        record.setReturnToMethod("PayPal Payment");
-        String data = paypalPay.sendPayNotify(record, "PayPal Pay");
+        record.setReturnToMethod("\n  * PayPal Payment *");
+        String data = paypalPay.sendPayNotify(record);
 
         return data;
     }
@@ -202,8 +203,8 @@ public class HelloResource {
 
         record.setProduct(products);
         record.setUser(user);
-        record.setReturnToMethod("Transfer Payment");
-        String data = paypalPay.sendPayNotify(record, "Transfer Pay");
+        record.setReturnToMethod("\n  * Transfer Payment *");
+        String data = transferPay.sendPayNotify(record);
 
         return data;
     }

@@ -58,31 +58,54 @@ public class Record
     public String getdata()
     {
         StringBuilder sb = new StringBuilder();
-        sb.append(user.getId())
+        sb.append("User: ")
+                .append("\n - Id: ")
                 .append(user.getId())
+                .append("\n - Name: ")
                 .append(user.getName())
-                .append(user.getLastName());
+                .append("\n - Last Name: ")
+                .append(user.getLastName())
+                .append("\n");
 
         for(Account a : getUser().getAccount())
         {
-            sb.append(a.getId())
+            sb.append("Account User : \n")
+                    .append(" - Id: ")
+                    .append(a.getId())
+                    .append("\n - Type: ")
                     .append(a.getType())
+                    .append("\n - Email: ")
                     .append(a.getEmail())
+                    .append("\n - Phone: ")
                     .append(a.getPhone())
-                    .append(a.getState().getState_account());
+                    .append("\n- - - - - - - - - - - - -")
+                    .append("\n Account State: ")
+                    .append(a.getState().getState_account())
+                    .append("\n- - - - - - - - - - - - -")
+                    .append("\n");
         }
 
         for(Product p : getProduct())
         {
-            sb.append(p.getId())
+            sb.append("Product User : \n")
+                    .append(" - Id: ")
+                    .append(p.getId())
+                    .append("\n - Code: ")
                     .append(p.getCode())
+                    .append("\n - Name: ")
                     .append(p.getName())
+                    .append("\n - Price: ")
                     .append(p.getPrice());
-
             value += p.getPrice();
         }
-        sb.append(value);
-        sb.append(getReturnToMethod());
+        sb.append("\n- - - - - - - - - - - - -")
+        .append("\n   * Total Value: ")
+                .append(value + " * ")
+                .append(("\n- - - - - - - - - - - - -"))
+                .append(getReturnToMethod())
+                .append(("\n- - - - - - - - - - - - -"))
+                .append("\n----- End of billing -----")
+                .append(("\n- - - - - - - - - - - - -\n"));
         return sb.toString();
     }
 }

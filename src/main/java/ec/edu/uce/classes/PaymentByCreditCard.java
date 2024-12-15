@@ -8,10 +8,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 @QualifierPayment("card")
-public class PaymentByCreditCard implements IPay {
-
+public class PaymentByCreditCard implements IPay
+{
     @Override
-    public String sendPayNotify(Record record, String message)
+    public String sendPayNotify(Record record)
     {
         return record.getdata();
     }

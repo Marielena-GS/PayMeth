@@ -7,21 +7,12 @@ import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-
 @QualifierPayment("transfer")
-public class PaymentByTransfer implements IPay {
-
-    @PostConstruct
-    public void init() {
-        System.out.println("Transfer pay notification init");
-    }
-    @PreDestroy
-    public void destroy() {
-        System.out.println("Transfer pay notification destroy");
-    }
-
+public class PaymentByTransfer implements IPay
+{
     @Override
-    public String sendPayNotify(Record record, String message) {
+    public String sendPayNotify(Record record)
+    {
         return record.getdata();
     }
 

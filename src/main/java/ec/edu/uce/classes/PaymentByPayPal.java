@@ -8,20 +8,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 @QualifierPayment("paypal")
-public class PaymentByPayPal implements IPay {
-
-    @PostConstruct
-    public void init() {
-        System.out.println("PayPal pay notification init");
-    }
-    @PreDestroy
-    public void destroy() {
-        System.out.println("PayPal pay notification destroy");
-    }
-
-
+public class PaymentByPayPal implements IPay
+{
     @Override
-    public String sendPayNotify(Record record, String menssage) {
+    public String sendPayNotify(Record record)
+    {
         return record.getdata();
     }
 }
