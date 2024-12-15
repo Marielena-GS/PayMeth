@@ -9,8 +9,8 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "User_Name")
-    private String name;
+    @Column(name = "Type_Account")
+    private String type;
     @Column(name = "User_Email")
     private String email;
     @Column(name = "User_Phone")
@@ -26,12 +26,12 @@ public class Account {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getEmail() {

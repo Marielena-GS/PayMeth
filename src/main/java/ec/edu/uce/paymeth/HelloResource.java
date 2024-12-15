@@ -11,6 +11,7 @@ import jakarta.persistence.Persistence;
 import jakarta.ws.rs.*;
 import org.hibernate.internal.build.AllowSysOut;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/pay")
@@ -51,17 +52,28 @@ public class HelloResource {
     @Produces("text/plain")
     @Path("/createuser")
     public String saveUser(@QueryParam("name") String name,
-                           @QueryParam("lastname") String lastname)
+                           @QueryParam("lastname") String lastname,
+                           @QueryParam("type_account") String type,
+                           @QueryParam("email") String email,
+                           @QueryParam("phone_user") String phone)
     {
         User nuser = new User();
+        List<Account> accounts = new ArrayList<>();
+        Account account = new Account();
         nuser.setName(name);
         nuser.setLastName(lastname);
+        account.setType(type);
+        account.setEmail(email);
+        account.setPhone(phone);
+        accounts.add(account);
+        nuser.setAccount(accounts);
 
         if (name != null && lastname != null)
         {
             usersService.createUser(nuser);
+            accountService.createAccount(account);
         }
-        List<User> users =  usersService.findAll();
+        List<User> users =  usersService.findByJoin();
         StringBuilder sb = new StringBuilder();
 
         for (User user : users) {

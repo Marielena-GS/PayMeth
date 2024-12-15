@@ -3,6 +3,7 @@ package ec.edu.uce.jpa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
@@ -49,4 +50,10 @@ public class UsersService {
         em.remove(user);
         em.getTransaction().commit();
     }
+
+    public List<User> findByJoin(){
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u JOIN u.account", User.class);
+        return query.getResultList();
+    }
+
 }

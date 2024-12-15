@@ -2,6 +2,8 @@ package ec.edu.uce.jpa;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "\"User\"")
 public class User {
@@ -13,6 +15,19 @@ public class User {
     private String name;
     @Column(name= "User_Last_Name")
     private String lastName;
+
+    @OneToMany
+    @JoinColumn(name = "id_user")
+    List<Account> account;
+
+    public List<Account> getAccount()
+    {
+        return account;
+    }
+
+    public void setAccount(List<Account> account) {
+        this.account = account;
+    }
 
     public User() { }
 
