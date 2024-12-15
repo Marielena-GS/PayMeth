@@ -15,21 +15,12 @@ public class Record
 {
     private User user;
     private List<Product> product;
-    private double value;
     private String returnToMethod;
 
     @PostConstruct
     public void init() { }
 
     public Record(){ }
-
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
-    }
 
     public String getReturnToMethod() {
         return returnToMethod;
@@ -57,6 +48,7 @@ public class Record
 
     public String getdata()
     {
+        double value = 0;
         StringBuilder sb = new StringBuilder();
 
          sb.append(("- - - - - - - - - - - - -"))

@@ -214,7 +214,7 @@ public class HelloResource {
         }
         else
         {
-            user = usersService.findByID(6);
+            user = usersService.findByID(1);
             products.add(productService.findByID(1));
         }
 
@@ -287,8 +287,8 @@ public class HelloResource {
         }
         else
         {
-            user = usersService.findByID(3);
-            products.add(productService.findByID(4));
+            user = usersService.findByID(1);
+            products.add(productService.findByID(1));
         }
 
         record.setProduct(products);
