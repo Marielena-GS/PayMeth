@@ -158,7 +158,7 @@ public class HelloResource {
 
         record.setProduct(products);
         record.setUser(user);
-        record.setReturnToMethod("\n  * Credit Card Payment *");
+        record.setReturnToMethod("\n  * Credit Card Payment * ");
         String data = cardPay.sendPayNotify(record);
 
         return data;
@@ -180,7 +180,7 @@ public class HelloResource {
 
         record.setProduct(products);
         record.setUser(user);
-        record.setReturnToMethod("\n  * PayPal Payment *");
+        record.setReturnToMethod("\n  * PayPal Payment * ");
         String data = paypalPay.sendPayNotify(record);
 
         return data;
@@ -203,7 +203,7 @@ public class HelloResource {
 
         record.setProduct(products);
         record.setUser(user);
-        record.setReturnToMethod("\n  * Transfer Payment *");
+        record.setReturnToMethod("\n  * Transfer Payment * ");
         String data = transferPay.sendPayNotify(record);
 
         return data;
